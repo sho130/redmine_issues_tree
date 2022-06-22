@@ -1,12 +1,10 @@
-require_dependency 'redmine_issues_tree/hook_listener'
-
 plugin_name = :redmine_issues_tree
 
 Redmine::Plugin.register plugin_name do
   name 'Redmine Issues Tree plugin'
   author 'Ivan Zabrovskiy'
   description 'Provides a tree view of the issues list'
-  version RedmineIssuesTree::VERSION
+  version RedmineIssuesTree::Version
   url 'https://github.com/Loriowar/redmine_issues_tree'
   author_url 'https://loriowar.com/about'
 
@@ -17,7 +15,7 @@ Redmine::Plugin.register plugin_name do
            }
 end
 
-Rails.configuration.to_prepare do
+Rails.configuration.after_initialize do
   prepend_patches_map =
     {
       ::RedmineIssuesTree::IssuesControllerPatch => ::IssuesController
@@ -44,3 +42,4 @@ Redmine::AccessControl.
     push('issues_trees/tree_index').
     push('issues_trees/redirect_with_params').
     push('issues_trees/tree_children')
+
